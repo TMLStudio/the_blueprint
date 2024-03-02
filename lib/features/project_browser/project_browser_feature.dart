@@ -23,9 +23,9 @@ class ProjectBrowserFeature extends FeatureInterface<ProjectBrowserAdapter> {
   @override
   List<FeatureBindingManifest> get featureBindings => _featureBindings;
 
-  @override
-  PortStreamListener? createBinding(String featureId) {
-    if (featureId == ProjectEditorFeature.PROJECT_EDITOR) return BindingProjectEditorToProjectBrowser(feature: this);
-    return null;
-  }
+  // @override
+  // PortStreamListener? createBinding(String featureId) {
+  //   if (featureId == ProjectEditorFeature.PROJECT_EDITOR) return BindingProjectEditorToProjectBrowser(feature: this);
+  //   return null;
+  // }
 }

@@ -8,8 +8,7 @@ import 'package:the_blueprint/features/project_editor/bindings/project_browser_b
 class ProjectEditorFeature extends FeatureInterface<ProjectEditorAdapter> {
   final ProjectEditorAdapter editorAdapter;
   final ProjectRepositoryInterface projectRepository;
-  ProjectEditorFeature({required this.editorAdapter, required this.projectRepository, super.storageService}) {
-  }
+  ProjectEditorFeature({required this.editorAdapter, required this.projectRepository});
 
   @override
   ProjectEditorAdapter get adapter => editorAdapter;

@@ -18,9 +18,11 @@ abstract class FeatureInterface<TAdapter extends BlueprintAdapter> {
   String get featureId;
   List<FeatureBindingManifest> get featureBindings;
   // Map<String, PortStreamListener> listeners = {};
-  StorageServiceInterface? storageService;
+  // StorageServiceInterface? storageService;
 
-  FeatureInterface({this.storageService});
+  FeatureInterface() {
+    adapter.onBind(this);
+  }
 
   // PortStreamListener? getListenerForFeature(String featureId) {
   //   if (listeners.containsKey(featureId)) return listeners[featureId];
@@ -32,5 +34,5 @@ abstract class FeatureInterface<TAdapter extends BlueprintAdapter> {
   //   listeners[externalFeatureId] = listener;
   // }
 
-  PortStreamListener? createBinding(String featureId);
+  // PortStreamListener? createBinding(String featureId);
 }

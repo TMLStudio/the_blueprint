@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 
+import 'adapter_interface.dart';
+
 
 mixin PortStreamListener {
   onReceiveData(PortStreamEvent event);
@@ -22,7 +24,7 @@ class PortStream {
   // used for the external blueprints
   //
   StreamController<PortStreamEvent> outController = StreamController.broadcast();
-  List<PortStreamListener> _listeners = [];
+  List<BlueprintAdapter> _listeners = [];
 
   final BlueprintAdapter adapter;
   PortStream({required this.adapter}) {
@@ -44,7 +46,7 @@ class PortStream {
     outController.sink.add(event);
   }
 
-  void register(PortStreamListener listener) {
+  void register(BlueprintAdapter listener) {
     if (!_listeners.contains(listener)) {
       debugPrint("[${adapter.runtimeType}] portStream add listener [${listener.runtimeType}]");
       _listeners.add(listener);
@@ -52,17 +54,23 @@ class PortStream {
   }
 }
 
-mixin BlueprintAdapter {
+mixin BlueprintAdapter<TFeature> {
   late final PortStream _portStream = PortStream(adapter: this);
+  late TFeature feature;
+  onBind(TFeature feature) {
+    this.feature = feature;
+  }
 
   broadcast(String portId, dynamic data) {
     debugPrint("$runtimeType: broadcast portId=$portId data=$data");
     _portStream.sendFromInside(PortStreamEvent(portId: portId, data: data));
   }
 
-  register(PortStreamListener listener) {
+  register(BlueprintAdapter listener) {
     debugPrint("$runtimeType: portStream add listener ${listener.runtimeType}");
     _portStream.register(listener);
   }
+
+  onReceiveData(PortStreamEvent event);
 
 }

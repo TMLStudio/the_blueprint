@@ -10,22 +10,21 @@ import 'package:the_blueprint/features/project_browser/screens/project_browser_s
 import 'package:the_blueprint/features/project_editor/adapter.dart';
 import 'package:the_blueprint/features/project_editor/project_editor_feature.dart';
 import 'package:the_blueprint/features/project_editor/screens/project_editor_screen.dart';
+import 'package:the_blueprint/shared/data_ports.dart';
 
 void main() {
   ProjectEditorAdapter pea = ProjectEditorAdapter();
-  ProjectEditorFeature pef = ProjectEditorFeature(
+  ProjectEditorFeature editorFeature = ProjectEditorFeature(
       editorAdapter: pea,
       projectRepository: ProjectRepositoryInMemory(),
-      storageService: serviceLocator.storageServiceInMemory
   );
-  pea.onBind(pef);
   ProjectBrowserAdapter pba = ProjectBrowserAdapter();
-  ProjectBrowserFeature pbf = ProjectBrowserFeature(
+  ProjectBrowserFeature browserFeature = ProjectBrowserFeature(
       browserAdapter: pba, projectRepository: ProjectRepositoryInMemory());
-  pba.onBind(pbf);
-  pef.featureBindings.add(FeatureBindingManifest(featureId: pbf.featureId, portBindings: [BlueprintPortBinding(portId: ProjectBrowserAdapter.PORT_PROJECT_SELECTION_CHANGED)]));
-  pbf.featureBindings.add(FeatureBindingManifest(featureId: pef.featureId, portBindings: [BlueprintPortBinding(portId: ProjectEditorAdapter.PORT_SAVE_DOCUMENT_RESULT)]));
-  blueprintFeatureMgr.setup([pef, pbf]);
+  pba.onBind(browserFeature);
+  editorFeature.featureBindings.add(FeatureBindingManifest(featureId: browserFeature.featureId, portBindings: [BlueprintPortBinding(portId: PORT_PROJECT_SELECTION_CHANGED)]));
+  browserFeature.featureBindings.add(FeatureBindingManifest(featureId: editorFeature.featureId, portBindings: [BlueprintPortBinding(portId: PORT_SAVE_DOCUMENT_RESULT)]));
+  blueprintFeatureMgr.setup([editorFeature, browserFeature]);
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => pea),

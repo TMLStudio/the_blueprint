@@ -31,11 +31,12 @@ class BlueprintFeatureManager {
               .featureId}]: feature not found");
         }
         else {
-          PortStreamListener? lis =f.createBinding(targetFeature.featureId);
-          if (lis != null) {
-            debugPrint("[Feature ${f.runtimeType}] create binding [${lis.runtimeType}] for events from ${targetFeature.featureId}");
-            targetFeature.adapter.register(lis);
-          }
+          // PortStreamListener? lis =f.createBinding(targetFeature.featureId);
+          // if (lis != null) {
+          //   debugPrint("[Feature ${f.runtimeType}] create binding [${lis.runtimeType}] for events from ${targetFeature.featureId}");
+          //   targetFeature.adapter.register(lis);
+          // }
+          targetFeature.adapter.register(f.adapter);
         }
       }
     }
